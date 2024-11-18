@@ -29,10 +29,16 @@ forge script script/Deploy.s.sol --force --rpc-url https://ethereum-sepolia.publ
 See [Solidity scripting guide](https://book.getfoundry.sh/tutorials/solidity-scripting) for more information.
 
 ## Cleaning
+```
 forge clean && forge build
+```
 
 ## Upgrading the contract
+```
 forge script script/Upgrade.s.sol --force --rpc-url https://ethereum-sepolia.publicnode.com
+```
 
 ## Verifying
+```
 forge verify-contract --rpc-url https://ethereum-sepolia.publicnode.com --etherscan-api-key {{APIKEY}} {{PROXY CONTRACT 0x}} --force
+```
