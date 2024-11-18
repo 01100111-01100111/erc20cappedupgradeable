@@ -20,13 +20,16 @@ forge test --force
 
 ## Deploying the contract
 
-You can simulate a deployment by running the script:
+You can deploy to Sepolia by running the script:
 
 ```
 forge script script/Deploy.s.sol --force --rpc-url https://ethereum-sepolia.publicnode.com --force
 ```
 
-See [Solidity scripting guide](https://book.getfoundry.sh/tutorials/solidity-scripting) for more information.
+### Verifying the contract
+```
+forge verify-contract --rpc-url https://ethereum-sepolia.publicnode.com --etherscan-api-key {{APIKEY}} {{PROXY CONTRACT 0x}} --force
+```
 
 ## Cleaning
 ```
@@ -38,7 +41,7 @@ forge clean && forge build
 forge script script/Upgrade.s.sol --force --rpc-url https://ethereum-sepolia.publicnode.com
 ```
 
-## Verifying
+### Verifying the contract
 ```
 forge verify-contract --rpc-url https://ethereum-sepolia.publicnode.com --etherscan-api-key {{APIKEY}} {{PROXY CONTRACT 0x}} --force
 ```
