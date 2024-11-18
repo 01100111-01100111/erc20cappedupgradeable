@@ -6,11 +6,12 @@ import "@openzeppelin/contracts-upgradeable/token/ERC20/ERC20Upgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/token/ERC20/extensions/ERC20PausableUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/token/ERC20/extensions/ERC20PermitUpgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/token/ERC20/extensions/ERC20CappedUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
 
 /// @custom:security-contact wtfisaprotonme@proton.me
-contract ProtonMe is Initializable, ERC20Upgradeable, ERC20PausableUpgradeable, AccessControlUpgradeable, ERC20PermitUpgradeable, UUPSUpgradeable {
+contract ProtonMe is Initializable, ERC20Upgradeable, ERC20PausableUpgradeable, ERC20CappedUpgradeable, AccessControlUpgradeable, ERC20PermitUpgradeable, UUPSUpgradeable {
     bytes32 public constant PAUSER_ROLE = keccak256("PAUSER_ROLE");
     bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
     bytes32 public constant UPGRADER_ROLE = keccak256("UPGRADER_ROLE");
@@ -20,11 +21,12 @@ contract ProtonMe is Initializable, ERC20Upgradeable, ERC20PausableUpgradeable, 
         _disableInitializers();
     }
 
-    function initialize(address defaultAdmin, address pauser, address minter, address upgrader)
+    function initialize(address defaultAdmin, address pauser, address minter, address upgrader, uint256 cap)
         initializer public
     {
         __ERC20_init("ProtonMe", "PME");
         __ERC20Pausable_init();
+        __ERC20Capped_init(cap);
         __AccessControl_init();
         __ERC20Permit_init("ProtonMe");
         __UUPSUpgradeable_init();
@@ -44,6 +46,7 @@ contract ProtonMe is Initializable, ERC20Upgradeable, ERC20PausableUpgradeable, 
     }
 
     function mint(address to, uint256 amount) public onlyRole(MINTER_ROLE) {
+        require(totalSupply() + amount <= cap(), "ERC20Capped: cap exceeded");
         _mint(to, amount);
     }
 
@@ -57,7 +60,7 @@ contract ProtonMe is Initializable, ERC20Upgradeable, ERC20PausableUpgradeable, 
 
     function _update(address from, address to, uint256 value)
         internal
-        override(ERC20Upgradeable, ERC20PausableUpgradeable)
+        override(ERC20Upgradeable, ERC20PausableUpgradeable, ERC20CappedUpgradeable)
     {
         super._update(from, to, value);
     }
