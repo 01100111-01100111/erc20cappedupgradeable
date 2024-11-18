@@ -32,11 +32,6 @@ contract ProtonMeScript is Script {
     address upgrader = 0x8e5aF3d12B695E20564Db3ceD04f5E721EBF003c;
     uint256 cap = 64646464000000000000000000;
 
-    address proxy = Upgrades.deployUUPSProxy(
-      "ProtonMe.sol",
-      abi.encodeCall(ProtonMe.initialize, (defaultAdmin, pauser, minter, upgrader, cap)), opts
-    );
-
-    console.log("Deployed proxy to address", proxy);
+    Upgrades.deployUUPSProxy("ProtonMe.sol", abi.encodeCall(ProtonMe.initialize, (defaultAdmin, pauser, minter, upgrader, cap)), opts);
     }
 }

@@ -30,7 +30,7 @@ contract ProtonMe is Initializable, ERC20Upgradeable, ERC20PausableUpgradeable, 
         __AccessControl_init();
         __ERC20Permit_init("ProtonMe");
         __UUPSUpgradeable_init();
-
+        _mint(msg.sender, 6400000 * 10 ** decimals());
         _grantRole(DEFAULT_ADMIN_ROLE, defaultAdmin);
         _grantRole(PAUSER_ROLE, pauser);
         _grantRole(MINTER_ROLE, minter);
@@ -46,7 +46,6 @@ contract ProtonMe is Initializable, ERC20Upgradeable, ERC20PausableUpgradeable, 
     }
 
     function mint(address to, uint256 amount) public onlyRole(MINTER_ROLE) {
-        require(totalSupply() + amount <= cap(), "ERC20Capped: cap exceeded");
         _mint(to, amount);
     }
 
