@@ -11,7 +11,15 @@ import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
 
 /// @custom:security-contact wtfisaprotonme@proton.me
-contract ProtonMe is Initializable, ERC20Upgradeable, ERC20PausableUpgradeable, ERC20CappedUpgradeable, AccessControlUpgradeable, ERC20PermitUpgradeable, UUPSUpgradeable {
+contract ProtonMe is
+    Initializable,
+    ERC20Upgradeable,
+    ERC20PausableUpgradeable,
+    ERC20CappedUpgradeable,
+    AccessControlUpgradeable,
+    ERC20PermitUpgradeable,
+    UUPSUpgradeable
+{
     bytes32 public constant PAUSER_ROLE = keccak256("PAUSER_ROLE");
     bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
     bytes32 public constant UPGRADER_ROLE = keccak256("UPGRADER_ROLE");
@@ -22,7 +30,8 @@ contract ProtonMe is Initializable, ERC20Upgradeable, ERC20PausableUpgradeable, 
     }
 
     function initialize(address defaultAdmin, address pauser, address minter, address upgrader, uint256 cap)
-        initializer public
+        public
+        initializer
     {
         __ERC20_init("ProtonMe", "PME");
         __ERC20Pausable_init();
@@ -49,11 +58,7 @@ contract ProtonMe is Initializable, ERC20Upgradeable, ERC20PausableUpgradeable, 
         _mint(to, amount);
     }
 
-    function _authorizeUpgrade(address newImplementation)
-        internal
-        onlyRole(UPGRADER_ROLE)
-        override
-    {}
+    function _authorizeUpgrade(address newImplementation) internal override onlyRole(UPGRADER_ROLE) {}
 
     // The following functions are overrides required by Solidity.
 
