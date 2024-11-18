@@ -31,11 +31,6 @@ forge script script/Deploy.s.sol --force --rpc-url https://ethereum-sepolia.publ
 forge verify-contract --rpc-url https://ethereum-sepolia.publicnode.com --etherscan-api-key {{APIKEY}} {{PROXY CONTRACT 0x}} --force
 ```
 
-## Cleaning
-```
-forge clean && forge build
-```
-
 ## Upgrading the contract
 ```
 forge script script/Upgrade.s.sol --force --rpc-url https://ethereum-sepolia.publicnode.com
@@ -44,4 +39,9 @@ forge script script/Upgrade.s.sol --force --rpc-url https://ethereum-sepolia.pub
 ### Verifying the contract
 ```
 forge verify-contract --rpc-url https://ethereum-sepolia.publicnode.com --etherscan-api-key {{APIKEY}} {{PROXY CONTRACT 0x}} --force
+```
+
+## Cleaning
+```
+forge clean && forge build
 ```
