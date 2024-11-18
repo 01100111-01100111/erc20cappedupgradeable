@@ -13,9 +13,10 @@ contract ProtonMeTest is Test {
     address pauser = vm.addr(2);
     address minter = vm.addr(3);
     address upgrader = vm.addr(4);
+    uint256 cap = 64646464000000000000000000;
     address proxy = Upgrades.deployUUPSProxy(
       "ProtonMe.sol",
-      abi.encodeCall(ProtonMe.initialize, (defaultAdmin, pauser, minter, upgrader))
+      abi.encodeCall(ProtonMe.initialize, (defaultAdmin, pauser, minter, upgrader, cap))
     );
     instance = ProtonMe(proxy);
   }
